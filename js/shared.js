@@ -54,7 +54,7 @@ var stations = [
         id: 5,
         title: "Spielplatz Heinrich-Plett-Stra\u00DFe",
         icon: "\u{1F3A0}",
-        question: "In welchem Untergrund steht die Schleuder/Schaukel beim Spielplatz Heinrich-Plett-Stra\u00DFe?",
+        question: "Auf welchem Untergrund steht die Schleuder/Schaukel beim Spielplatz Heinrich-Plett-Stra\u00DFe?",
         answers: ["holzsp\u00E4ne", "holzspaene", "holzspane", "holzsp\u00E4hne"],
         letter: "O",
         hint: null,
@@ -78,11 +78,11 @@ var stations = [
         icon: "\u{1F37D}\uFE0F",
         question: "Was ist das dritte Gericht auf der aktuellen Speisekarte des Restaurants \u201EZum Lemp\u201C?",
         // ⚠️ TO-DO: Antwort hier eintragen wenn bekannt!
-        answers: ["todo"],
+        answers: ["manu"],
         letter: "U",
         hint: null,
         subRiddle: null,
-        enabled: false  // Aktivieren wenn Antwort bekannt
+        enabled: true
     },
     {
         id: 8,
@@ -102,11 +102,11 @@ var stations = [
         icon: "\u{1F3E0}",
         question: "Hier befindet sich die Kita und der Hort von Man\u00FA. Diese ist am Neuenberg. Was steht auf der Klingel?",
         // ⚠️ TO-DO: Antwort hier eintragen wenn bekannt!
-        answers: ["todo"],
+        answers: ["manu"],
         letter: "T",
         hint: "Auf dem Weg gibt es einen Durchgang an der Station \u201EFrankfurt (Main) Dachsberg\u201C, den Google nicht findet.",
         subRiddle: null,
-        enabled: false  // Aktivieren wenn Antwort bekannt
+        enabled: true
     },
     {
         id: 10,
