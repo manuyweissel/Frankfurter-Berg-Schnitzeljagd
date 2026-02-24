@@ -24,7 +24,7 @@ var stations = [
         title: "Auftritte mit der Quetschkommode",
         icon: "\u26EA",
         question: "Welches Orchester tritt in der Allerheiligsten Dreifaltigkeitskirche traditionell auf?",
-        answers: ["akkordeon orchester", "akkordeonorchester", "akkordeon-orchester"],
+        answers: ["akkordeon orchester", "akkordeonorchester", "akkordeon-orchester", "akkordeon"],
         letter: "K",
         hint: null,
         subRiddle: null,
@@ -33,7 +33,7 @@ var stations = [
     {
         id: 3,
         title: "Nachbarschaftsarbeit",
-        icon: "\u{1F3D7}\uFE0F",
+        icon: "\u{1F91D}",
         question: "Welches Tier als Sitzgelegenheit hat Man\u00FA mit ein paar anderen Nachbarn 2009 direkt gegen\u00FCber von dem Netto Marken-Discount gebaut?",
         answers: ["schlange"],
         letter: "T",
