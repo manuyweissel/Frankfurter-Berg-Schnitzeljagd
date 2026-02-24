@@ -246,7 +246,7 @@ function checkAnswer(stationId) {
             gameState.solvedStations.push(stationId);
             saveState();
         }
-        showFeedback(feedback, "success", "\u2705 Richtig! Der Buchstabe ist: <strong>" + station.letter + "</strong>");
+        if (feedback) feedback.style.display = "none";
         var inputGroup = document.getElementById("input-group-" + stationId);
         if (inputGroup) inputGroup.style.display = "none";
         var solvedEl = document.getElementById("solved-" + stationId);
