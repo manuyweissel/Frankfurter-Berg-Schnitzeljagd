@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Station 8: Geheimes Grundstück — Schnitzeljagd</title>
+    <title>Station 8: Geheimes Grundstueck - Schnitzeljagd</title>
     <meta name="theme-color" content="#0b0b1a">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <div id="app"></div>
+    <div id="app"><div style="min-height:100vh;display:flex;align-items:center;justify-content:center;color:#a7a9be;font-family:Inter,sans-serif;"><p>Laden...</p></div></div>
     <script src="../js/shared.js"></script>
-    <script>renderStationPage(8);</script>
+    <script>try{renderStationPage(8)}catch(e){document.getElementById("app").innerHTML='<div style="padding:2rem;color:#e74c3c"><pre>'+e.message+'</pre></div>';console.error(e)}</script>
 </body>
 </html>

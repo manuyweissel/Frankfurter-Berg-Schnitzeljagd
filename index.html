@@ -12,8 +12,23 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div id="app"></div>
+    <div id="app">
+        <!-- Fallback while JS loads -->
+        <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;color:#a7a9be;font-family:Inter,sans-serif;">
+            <p>Lädt...</p>
+        </div>
+    </div>
     <script src="js/shared.js"></script>
-    <script>renderOverview();</script>
+    <script>
+        try { renderOverview(); } catch(e) {
+            document.getElementById('app').innerHTML = '<div style="padding:2rem;color:#e74c3c;font-family:Inter,sans-serif;"><h2>Fehler beim Laden</h2><pre>'+e.message+'</pre></div>';
+            console.error(e);
+        }
+    </script>
+    <noscript>
+        <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;color:#fffffe;font-family:sans-serif;background:#0b0b1a;padding:2rem;text-align:center;">
+            <p>JavaScript muss aktiviert sein, um die Schnitzeljagd zu spielen.</p>
+        </div>
+    </noscript>
 </body>
 </html>

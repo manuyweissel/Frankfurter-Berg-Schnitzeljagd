@@ -599,6 +599,18 @@ body::after {
     color: var(--text-dim);
     flex-shrink: 0;
     transition: transform var(--transition);
+    display: flex;
+    align-items: center;
+}
+
+.trail-card-arrow svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 .trail-item:hover .trail-card-arrow {
@@ -1272,20 +1284,8 @@ body::after {
 }
 
 .fade-in-up {
-    animation: fadeInUp 0.5s ease both;
+    animation: fadeInUp 0.5s ease forwards;
 }
-
-/* Staggered animation delays */
-.stagger-1 { animation-delay: 0.05s; }
-.stagger-2 { animation-delay: 0.1s; }
-.stagger-3 { animation-delay: 0.15s; }
-.stagger-4 { animation-delay: 0.2s; }
-.stagger-5 { animation-delay: 0.25s; }
-.stagger-6 { animation-delay: 0.3s; }
-.stagger-7 { animation-delay: 0.35s; }
-.stagger-8 { animation-delay: 0.4s; }
-.stagger-9 { animation-delay: 0.45s; }
-.stagger-10 { animation-delay: 0.5s; }
 
 /* ═══════════════════════════════════════════════════════════
    RESPONSIVE

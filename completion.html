@@ -11,8 +11,17 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div id="app"></div>
+    <div id="app">
+        <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;color:#a7a9be;font-family:Inter,sans-serif;">
+            <p>Lädt...</p>
+        </div>
+    </div>
     <script src="js/shared.js"></script>
-    <script>renderCompletion();</script>
+    <script>
+        try { renderCompletion(); } catch(e) {
+            document.getElementById('app').innerHTML = '<div style="padding:2rem;color:#e74c3c;font-family:Inter,sans-serif;"><h2>Fehler</h2><pre>'+e.message+'</pre></div>';
+            console.error(e);
+        }
+    </script>
 </body>
 </html>
