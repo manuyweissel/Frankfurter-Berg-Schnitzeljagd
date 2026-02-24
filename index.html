@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frankfurter Berg Schnitzeljagd</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0f0e17;
+            --bg-secondary: #1a1932;
+            --bg-card: rgba(255, 255, 255, 0.04);
+            --bg-card-hover: rgba(255, 255, 255, 0.08);
+            --accent: #e8a824;
+            --accent-glow: rgba(232, 168, 36, 0.3);
+            --accent-light: #f5d76e;
+            --success: #2ecc71;
+            --success-bg: rgba(46, 204, 113, 0.15);
+            --error: #e74c3c;
+            --error-bg: rgba(231, 76, 60, 0.15);
+            --text: #fffffe;
+            --text-muted: #a7a9be;
+            --text-dim: #5f6180;
+            --border: rgba(255, 255, 255, 0.08);
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ═══════════ BACKGROUND EFFECTS ═══════════ */
+        .bg-glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .bg-glow-1 { top: -100px; left: -100px; background: var(--accent); }
+        .bg-glow-2 { bottom: -150px; right: -100px; background: #7f5af0; }
+
+        /* ═══════════ START SCREEN ═══════════ */
+        .screen { display: none; }
+        .screen.active { display: block; }
+
+        .start-screen {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .start-logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .start-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--text), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .start-subtitle {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: clamp(1rem, 3vw, 1.4rem);
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .start-description {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+            max-width: 500px;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn-primary {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--accent), #d4941c);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 25px var(--accent-glow);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 35px var(--accent-glow);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        /* ═══════════ GAME SCREEN ═══════════ */
+        .game-screen {
+            position: relative;
+            z-index: 1;
+            padding-bottom: 2rem;
+        }
+
+        /* Header */
+        .game-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 14, 23, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 1.5rem;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .header-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--accent);
+        }
+
+        .header-progress-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .letter-boxes {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+        }
+
+        .letter-box {
+            width: 32px;
+            height: 38px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-dim);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: var(--bg-card);
+        }
+
+        .letter-box.found {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(232, 168, 36, 0.1);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            70% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Stations */
+        .stations-container {
+            padding: 1rem;
+            max-width: 640px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .station-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .station-card:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .station-card.solved {
+            border-color: rgba(46, 204, 113, 0.3);
+        }
+
+        .station-card.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .station-header {
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .station-number {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, rgba(232, 168, 36, 0.2), rgba(232, 168, 36, 0.05));
+            color: var(--accent);
+            flex-shrink: 0;
+            border: 1px solid rgba(232, 168, 36, 0.2);
+        }
+
+        .station-card.solved .station-number {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.2), rgba(46, 204, 113, 0.05));
+            color: var(--success);
+            border-color: rgba(46, 204, 113, 0.2);
+        }
+
+        .station-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .station-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 2px;
+        }
+
+        .station-status {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .station-card.solved .station-status {
+            color: var(--success);
+        }
+
+        .station-chevron {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .station-card.open .station-chevron {
+            transform: rotate(180deg);
+        }
+
+        .station-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .station-card.open .station-body {
+            max-height: 800px;
+        }
+
+        .station-content {
+            padding: 0 1.25rem 1.25rem;
+        }
+
+        .station-divider {
+            height: 1px;
+            background: var(--border);
+            margin-bottom: 1rem;
+        }
+
+        .question-text {
+            font-size: 1rem;
+            line-height: 1.65;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        /* Sub-Riddle */
+        .sub-riddle {
+            background: rgba(127, 90, 240, 0.08);
+            border: 1px solid rgba(127, 90, 240, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .sub-riddle-label {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #7f5af0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sub-riddle-question {
+            font-size: 0.95rem;
+            color: var(--text);
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+        }
+
+        .sub-riddle.solved {
+            border-color: rgba(46, 204, 113, 0.3);
+            background: var(--success-bg);
+        }
+
+        .sub-riddle.solved .sub-riddle-label {
+            color: var(--success);
+        }
+
+        /* Hint */
+        .hint-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            color: var(--accent);
+            cursor: pointer;
+            margin-bottom: 0.75rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            background: rgba(232, 168, 36, 0.08);
+            border: 1px solid rgba(232, 168, 36, 0.15);
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+
+        .hint-toggle:hover {
+            background: rgba(232, 168, 36, 0.15);
+        }
+
+        .hint-text {
+            display: none;
+            font-size: 0.9rem;
+            color: var(--accent-light);
+            background: rgba(232, 168, 36, 0.06);
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-sm);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+            border-left: 3px solid var(--accent);
+        }
+
+        .hint-text.visible {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Input Group */
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .answer-input {
+            flex: 1;
+            padding: 0.85rem 1rem;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .answer-input:focus {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .answer-input::placeholder {
+            color: var(--text-dim);
+        }
+
+        .btn-check {
+            padding: 0.85rem 1.5rem;
+            background: linear-gradient(135deg, var(--accent), #d4941c);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .btn-check:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        .btn-check:active {
+            transform: translateY(0);
+        }
+
+        .btn-check:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Feedback */
+        .feedback {
+            margin-top: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .feedback.show { display: block; }
+
+        .feedback.success {
+            background: var(--success-bg);
+            color: var(--success);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+
+        .feedback.error {
+            background: var(--error-bg);
+            color: var(--error);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+
+        /* Solved State */
+        .solved-display {
+            display: none;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: var(--success-bg);
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(46, 204, 113, 0.2);
+        }
+
+        .solved-display.show {
+            display: flex;
+        }
+
+        .solved-letter {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--success), #1abc9c);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: white;
+        }
+
+        .solved-info {
+            font-size: 0.9rem;
+            color: var(--success);
+        }
+
+        .solved-info strong {
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+        }
+
+        /* Coming Soon Badge */
+        .coming-soon-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.3rem 0.7rem;
+            background: rgba(255, 165, 0, 0.12);
+            color: #ffa500;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 165, 0, 0.2);
+        }
+
+        /* ═══════════ COMPLETION SCREEN ═══════════ */
+        .completion-screen {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .completion-trophy {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .completion-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--success), #1abc9c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .completion-word {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            letter-spacing: 6px;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 40px var(--accent-glow);
+        }
+
+        .completion-message {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            max-width: 500px;
+            margin-bottom: 2rem;
+        }
+
+        .btn-reset {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.8rem 2rem;
+            background: transparent;
+            color: var(--text-muted);
+            border: 1.5px solid var(--border);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-reset:hover {
+            border-color: var(--text-muted);
+            color: var(--text);
+        }
+
+        /* ═══════════ FINAL SOLUTION ═══════════ */
+        .final-solution-section {
+            max-width: 640px;
+            margin: 1.5rem auto 2rem;
+            padding: 0 1rem;
+        }
+
+        .final-solution-card {
+            background: linear-gradient(135deg, rgba(232, 168, 36, 0.08), rgba(127, 90, 240, 0.05));
+            border: 1px solid rgba(232, 168, 36, 0.2);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .final-solution-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .final-letter-boxes {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .final-letter-box {
+            width: 36px;
+            height: 44px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-dim);
+            background: var(--bg-card);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .final-letter-box.found {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(232, 168, 36, 0.1);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .final-input-group {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .final-input {
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            outline: none;
+            width: 200px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .final-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .btn-final-check {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--accent), #d4941c);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-final-check:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        .final-feedback {
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: none;
+        }
+
+        .final-feedback.show { display: block; }
+        .final-feedback.success { color: var(--success); }
+        .final-feedback.error { color: var(--error); }
+
+        /* ═══════════ CONFETTI ═══════════ */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            top: -20px;
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            animation: confettiFall linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% { top: -20px; opacity: 1; transform: rotate(0deg) translateX(0); }
+            100% { top: 110vh; opacity: 0; transform: rotate(720deg) translateX(var(--drift)); }
+        }
+
+        /* ═══════════ SHAKE ANIMATION ═══════════ */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+            20%, 40%, 60%, 80% { transform: translateX(4px); }
+        }
+
+        .shake { animation: shake 0.5s ease; }
+
+        /* ═══════════ FOOTER ═══════════ */
+        .game-footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+        }
+
+        .game-footer .btn-reset-small {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-top: 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .game-footer .btn-reset-small:hover {
+            border-color: var(--error);
+            color: var(--error);
+        }
+
+        /* ═══════════ RESPONSIVE ═══════════ */
+        @media (max-width: 400px) {
+            .letter-box, .final-letter-box {
+                width: 28px;
+                height: 34px;
+                font-size: 0.85rem;
+            }
+            .letter-boxes, .final-letter-boxes { gap: 4px; }
+            .station-header { padding: 0.85rem 1rem; }
+            .station-content { padding: 0 1rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+
+    <!-- ═══════════ START SCREEN ═══════════ -->
+    <div id="startScreen" class="screen active start-screen">
+        <div class="start-logo">🗺️</div>
+        <h1 class="start-title">Frankfurter Berg<br>Schnitzeljagd</h1>
+        <p class="start-subtitle">10 Stationen &bull; 10 Buchstaben &bull; 1 Lösungswort</p>
+        <p class="start-description">
+            Erkundet Frankfurter Berg, löst die Rätsel an jeder Station und sammelt die Lösungsbuchstaben. 
+            Am Ende ergibt sich das geheime Lösungswort!
+        </p>
+        <button class="btn-primary" onclick="startGame()">
+            Schnitzeljagd starten 🔍
+        </button>
+    </div>
+
+    <!-- ═══════════ GAME SCREEN ═══════════ -->
+    <div id="gameScreen" class="screen game-screen">
+        <!-- Sticky Header -->
+        <div class="game-header">
+            <div class="header-top">
+                <span class="header-title">🗺️ Schnitzeljagd</span>
+                <span class="header-progress-text" id="progressText">0 / 10</span>
+            </div>
+            <div class="letter-boxes" id="headerLetterBoxes"></div>
+        </div>
+
+        <!-- Station Cards -->
+        <div class="stations-container" id="stationsContainer"></div>
+
+        <!-- Final Solution -->
+        <div class="final-solution-section">
+            <div class="final-solution-card">
+                <div class="final-solution-title">🏆 Lösungswort eingeben</div>
+                <div class="final-letter-boxes" id="finalLetterBoxes"></div>
+                <div class="final-input-group">
+                    <input type="text" class="final-input" id="finalInput" placeholder="?????????" maxlength="10" autocomplete="off" autocapitalize="characters">
+                    <button class="btn-final-check" onclick="checkFinalSolution()">Prüfen</button>
+                </div>
+                <div class="final-feedback" id="finalFeedback"></div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="game-footer">
+            <div>Frankfurter Berg Schnitzeljagd</div>
+            <button class="btn-reset-small" onclick="resetGame()">🔄 Fortschritt zurücksetzen</button>
+        </div>
+    </div>
+
+    <!-- ═══════════ COMPLETION SCREEN ═══════════ -->
+    <div id="completionScreen" class="screen completion-screen">
+        <div class="completion-trophy">🏆</div>
+        <h1 class="completion-title">Geschafft!</h1>
+        <div class="completion-word">PROWOKULTA</div>
+        <p class="completion-message">
+            Herzlichen Glückwunsch! Ihr habt alle 10 Stationen gemeistert und das Lösungswort gefunden. 
+            Das war eine tolle Tour durch Frankfurter Berg! 🎉
+        </p>
+        <button class="btn-reset" onclick="resetGame()">🔄 Nochmal spielen</button>
+    </div>
+
+    <!-- Confetti Container -->
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <script>
+        // ═══════════════════════════════════════════════
+        // STATION DATA - Rätsel hier anpassen!
+        // ═══════════════════════════════════════════════
+        const SOLUTION_WORD = "PROWOKULTA";
+
+        const stations = [
+            {
+                id: 1,
+                title: "Albert-Schweitzer-Schule",
+                icon: "🏫",
+                question: "Welches Tier ist im Brunnen der Albert-Schweitzer-Schule?",
+                answers: ["pelikan"],
+                letter: "P",
+                hint: null,
+                subRiddle: null,
+                enabled: true
+            },
+            {
+                id: 2,
+                title: "Manús erster Job",
+                icon: "🥐",
+                question: "Vorname des Chefs beim ersten richtigen Beruf von Manú?",
+                answers: ["dimitri"],
+                letter: "R",
+                hint: "Ich war beim Bäcker im Verkauf.",
+                subRiddle: null,
+                enabled: true
+            },
+            {
+                id: 3,
+                title: "Netto Marken-Discount",
+                icon: "🐍",
+                question: "Welches Tier als Sitzgelegenheit hat Manú mit seiner Mama und ein paar anderen Nachbarn 2010 direkt gegenüber von dem Netto Marken-Discount gebaut?",
+                answers: ["schlange"],
+                letter: "O",
+                hint: null,
+                subRiddle: null,
+                enabled: true
+            },
+            {
+                id: 4,
+                title: "Julius-Brecht-Straße 8",
+                icon: "🏢",
+                question: "So viele Stockwerke hat das Hochhaus „Julius-Brecht-Straße 8".",
+                answers: ["8", "acht"],
+                letter: "W",
+                hint: null,
+                subRiddle: null,
+                enabled: true
+            },
+            {
+                id: 5,
+                title: "Spielplatz Heinrich-Plett-Straße",
+                icon: "🎠",
+                question: "In welchem Untergrund steht die Schleuder/Schaukel beim Spielplatz Heinrich-Plett-Straße?",
+                answers: ["holzspäne", "holzspaene", "holzspane", "holzspähne"],
+                letter: "O",
+                hint: null,
+                subRiddle: null,
+                enabled: true
+            },
+            {
+                id: 6,
+                title: "Klingenfeld 77",
+                icon: "🌳",
+                question: "Was für ein Obstbaum steht beim Klingenfeld 77?",
+                answers: ["apfelbaum", "apfel baum"],
+                letter: "K",
+                hint: null,
+                subRiddle: null,
+                enabled: true
+            },
+            {
+                id: 7,
+                title: "Restaurant „Zum Lemp"",
+                icon: "🍽️",
+                question: "Was ist das dritte Gericht auf der aktuellen Speisekarte des Restaurants „Zum Lemp"?",
+                // ⚠️ TO-DO: Antwort hier eintragen wenn bekannt!
+                answers: ["todo"],
+                letter: "U",
+                hint: null,
+                subRiddle: null,
+                enabled: false // Aktivieren wenn Antwort bekannt
+            },
+            {
+                id: 8,
+                title: "Geheimes Grundstück",
+                icon: "📍",
+                question: "An den Koordinaten <strong>50°10'03.5\"N 8°41'47.2\"E</strong> liegt ein Grundstück. Wie heißt der Sohn dieser Person mit Vor- und Nachnamen?",
+                answers: ["linus burgeff"],
+                letter: "L",
+                hint: null,
+                // ⚠️ TO-DO: Unterrätsel für die Koordinaten hier eintragen
+                subRiddle: null,
+                enabled: true
+            },
+            {
+                id: 9,
+                title: "Kita & Hort am Neuenberg",
+                icon: "🏠",
+                question: "Hier befindet sich die Kita und der Hort von Manú. Diese ist am Neuenberg. Was steht auf der Klingel?",
+                // ⚠️ TO-DO: Antwort hier eintragen wenn bekannt!
+                answers: ["todo"],
+                letter: "T",
+                hint: "Auf dem Weg gibt es einen Durchgang an der Station „Frankfurt (Main) Dachsberg", den Google nicht findet.",
+                subRiddle: null,
+                enabled: false // Aktivieren wenn Antwort bekannt
+            },
+            {
+                id: 10,
+                title: "Taxischule Zimmermann",
+                icon: "🚪",
+                question: "Gegenüber der Taxischule Zimmermann steht eine Unterkunft. Öffnet diese mit dem Code <strong class='revealed-code' id='code10'>????</strong>. Was begegnet euch als erstes, wenn ihr die Unterkunft betretet?",
+                answers: ["vorhang"],
+                letter: "A",
+                hint: null,
+                subRiddle: {
+                    question: "Um den Code zu erfahren, löst zuerst dieses Rätsel: Wann war der Sturm auf die Bastille? (Format: DDMM)",
+                    answers: ["1407"],
+                    revealText: "1407",
+                    solved: false
+                },
+                enabled: true
+            }
+        ];
+
+        // ═══════════════════════════════════════════════
+        // GAME STATE
+        // ═══════════════════════════════════════════════
+        let gameState = {
+            started: false,
+            solvedStations: [],
+            solvedSubRiddles: [],
+            completed: false
+        };
+
+        // Load saved state
+        function loadState() {
+            const saved = localStorage.getItem('schnitzeljagd_state');
+            if (saved) {
+                try {
+                    gameState = JSON.parse(saved);
+                } catch (e) {
+                    gameState = { started: false, solvedStations: [], solvedSubRiddles: [], completed: false };
+                }
+            }
+        }
+
+        function saveState() {
+            localStorage.setItem('schnitzeljagd_state', JSON.stringify(gameState));
+        }
+
+        // ═══════════════════════════════════════════════
+        // INITIALIZATION
+        // ═══════════════════════════════════════════════
+        function init() {
+            loadState();
+            buildHeaderLetterBoxes();
+            buildFinalLetterBoxes();
+            buildStations();
+
+            if (gameState.completed) {
+                showScreen('completionScreen');
+            } else if (gameState.started) {
+                showScreen('gameScreen');
+                updateProgress();
+            } else {
+                showScreen('startScreen');
+            }
+        }
+
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function startGame() {
+            gameState.started = true;
+            saveState();
+            showScreen('gameScreen');
+            updateProgress();
+        }
+
+        // ═══════════════════════════════════════════════
+        // BUILD UI
+        // ═══════════════════════════════════════════════
+        function buildHeaderLetterBoxes() {
+            const container = document.getElementById('headerLetterBoxes');
+            container.innerHTML = '';
+            for (let i = 0; i < SOLUTION_WORD.length; i++) {
+                const box = document.createElement('div');
+                box.className = 'letter-box';
+                box.id = `header-letter-${i}`;
+                box.textContent = '?';
+                container.appendChild(box);
+            }
+        }
+
+        function buildFinalLetterBoxes() {
+            const container = document.getElementById('finalLetterBoxes');
+            container.innerHTML = '';
+            for (let i = 0; i < SOLUTION_WORD.length; i++) {
+                const box = document.createElement('div');
+                box.className = 'final-letter-box';
+                box.id = `final-letter-${i}`;
+                box.textContent = '?';
+                container.appendChild(box);
+            }
+        }
+
+        function buildStations() {
+            const container = document.getElementById('stationsContainer');
+            container.innerHTML = '';
+
+            stations.forEach((station, index) => {
+                const isSolved = gameState.solvedStations.includes(station.id);
+                const isSubSolved = gameState.solvedSubRiddles.includes(station.id);
+
+                const card = document.createElement('div');
+                card.className = `station-card${isSolved ? ' solved' : ''}${!station.enabled ? ' disabled' : ''}`;
+                card.id = `station-${station.id}`;
+
+                card.innerHTML = `
+                    <div class="station-header" onclick="toggleStation(${station.id})">
+                        <div class="station-number">${isSolved ? '✓' : station.id}</div>
+                        <div class="station-info">
+                            <div class="station-title">${station.icon} ${station.title}</div>
+                            <div class="station-status">
+                                ${!station.enabled ? '<span class="coming-soon-badge">🚧 Wird noch aktualisiert</span>' : (isSolved ? '✅ Gelöst — Buchstabe: ' + station.letter : 'Noch nicht gelöst')}
+                            </div>
+                        </div>
+                        <div class="station-chevron">▼</div>
+                    </div>
+                    <div class="station-body">
+                        <div class="station-content">
+                            <div class="station-divider"></div>
+                            
+                            ${station.subRiddle ? buildSubRiddle(station, isSubSolved) : ''}
+                            
+                            <div class="question-text">${station.question}</div>
+                            
+                            ${station.hint ? `
+                                <div class="hint-toggle" onclick="toggleHint(${station.id})">💡 Tipp anzeigen</div>
+                                <div class="hint-text" id="hint-${station.id}">${station.hint}</div>
+                            ` : ''}
+                            
+                            ${!station.enabled ? `
+                                <div class="feedback show" style="background: rgba(255,165,0,0.1); color: #ffa500; border: 1px solid rgba(255,165,0,0.2);">
+                                    🚧 Diese Station wird noch vorbereitet. Kommt bald!
+                                </div>
+                            ` : ''}
+
+                            ${station.enabled && !isSolved ? `
+                                ${station.subRiddle && !isSubSolved ? '' : `
+                                    <div class="input-group" id="input-group-${station.id}">
+                                        <input type="text" class="answer-input" id="answer-${station.id}" 
+                                            placeholder="Eure Antwort..." autocomplete="off" autocapitalize="none"
+                                            onkeydown="if(event.key==='Enter') checkAnswer(${station.id})">
+                                        <button class="btn-check" onclick="checkAnswer(${station.id})">Prüfen</button>
+                                    </div>
+                                `}
+                                <div class="feedback" id="feedback-${station.id}"></div>
+                            ` : ''}
+                            
+                            <div class="solved-display${isSolved ? ' show' : ''}" id="solved-${station.id}">
+                                <div class="solved-letter">${station.letter}</div>
+                                <div class="solved-info">
+                                    <strong>Buchstabe ${index + 1} gefunden</strong>
+                                    Station gelöst! 🎉
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function buildSubRiddle(station, isSolved) {
+            const sub = station.subRiddle;
+            return `
+                <div class="sub-riddle${isSolved ? ' solved' : ''}" id="sub-riddle-${station.id}">
+                    <div class="sub-riddle-label">${isSolved ? '🔓' : '🔒'} Unterrätsel</div>
+                    <div class="sub-riddle-question">${sub.question}</div>
+                    ${!isSolved ? `
+                        <div class="input-group">
+                            <input type="text" class="answer-input" id="sub-answer-${station.id}" 
+                                placeholder="Antwort..." autocomplete="off" autocapitalize="none"
+                                onkeydown="if(event.key==='Enter') checkSubAnswer(${station.id})">
+                            <button class="btn-check" onclick="checkSubAnswer(${station.id})">Lösen</button>
+                        </div>
+                        <div class="feedback" id="sub-feedback-${station.id}"></div>
+                    ` : `
+                        <div style="color: var(--success); font-size: 0.9rem;">✅ Gelöst! Code: <strong>${sub.revealText}</strong></div>
+                    `}
+                </div>
+            `;
+        }
+
+        // ═══════════════════════════════════════════════
+        // INTERACTIONS
+        // ═══════════════════════════════════════════════
+        function toggleStation(id) {
+            const card = document.getElementById(`station-${id}`);
+            const wasOpen = card.classList.contains('open');
+            
+            // Close all others
+            document.querySelectorAll('.station-card.open').forEach(c => c.classList.remove('open'));
+            
+            if (!wasOpen) {
+                card.classList.add('open');
+                // Scroll into view
+                setTimeout(() => {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+            }
+        }
+
+        function toggleHint(id) {
+            const hint = document.getElementById(`hint-${id}`);
+            hint.classList.toggle('visible');
+        }
+
+        function normalizeAnswer(str) {
+            return str.toLowerCase().trim()
+                .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss')
+                .replace(/\s+/g, ' ');
+        }
+
+        function checkAnswer(id) {
+            const station = stations.find(s => s.id === id);
+            const input = document.getElementById(`answer-${id}`);
+            const feedback = document.getElementById(`feedback-${id}`);
+            const value = input.value.trim();
+
+            if (!value) {
+                showFeedback(feedback, 'error', '❌ Bitte gebt eine Antwort ein.');
+                input.classList.add('shake');
+                setTimeout(() => input.classList.remove('shake'), 500);
+                return;
+            }
+
+            const normalizedValue = normalizeAnswer(value);
+            const isCorrect = station.answers.some(a => {
+                const normalizedAnswer = normalizeAnswer(a);
+                return normalizedValue === normalizedAnswer;
+            });
+
+            if (isCorrect) {
+                // Mark as solved
+                if (!gameState.solvedStations.includes(id)) {
+                    gameState.solvedStations.push(id);
+                    saveState();
+                }
+                
+                showFeedback(feedback, 'success', `✅ Richtig! Der Buchstabe ist: <strong>${station.letter}</strong>`);
+                
+                // Update UI
+                const card = document.getElementById(`station-${id}`);
+                card.classList.add('solved');
+                
+                const inputGroup = document.getElementById(`input-group-${id}`);
+                if (inputGroup) inputGroup.style.display = 'none';
+                
+                const solvedDisplay = document.getElementById(`solved-${id}`);
+                if (solvedDisplay) solvedDisplay.classList.add('show');
+                
+                // Update station header
+                const stationNumber = card.querySelector('.station-number');
+                stationNumber.textContent = '✓';
+                const stationStatus = card.querySelector('.station-status');
+                stationStatus.innerHTML = '✅ Gelöst — Buchstabe: ' + station.letter;
+                
+                updateProgress();
+            } else {
+                showFeedback(feedback, 'error', '❌ Das ist leider nicht richtig. Versucht es nochmal!');
+                input.classList.add('shake');
+                setTimeout(() => input.classList.remove('shake'), 500);
+            }
+        }
+
+        function checkSubAnswer(id) {
+            const station = stations.find(s => s.id === id);
+            const input = document.getElementById(`sub-answer-${id}`);
+            const feedback = document.getElementById(`sub-feedback-${id}`);
+            const value = input.value.trim();
+
+            if (!value) {
+                showFeedback(feedback, 'error', '❌ Bitte gebt eine Antwort ein.');
+                return;
+            }
+
+            const normalizedValue = normalizeAnswer(value);
+            const isCorrect = station.subRiddle.answers.some(a => normalizeAnswer(a) === normalizedValue);
+
+            if (isCorrect) {
+                if (!gameState.solvedSubRiddles.includes(id)) {
+                    gameState.solvedSubRiddles.push(id);
+                    saveState();
+                }
+
+                // Reveal the code in the question
+                if (station.subRiddle.revealText) {
+                    const codeEl = document.getElementById(`code${id}`);
+                    if (codeEl) {
+                        codeEl.textContent = station.subRiddle.revealText;
+                        codeEl.style.color = 'var(--success)';
+                        codeEl.style.fontWeight = '700';
+                    }
+                }
+
+                // Rebuild station to show main answer input
+                buildStations();
+                updateProgress();
+                
+                // Re-open the station
+                setTimeout(() => {
+                    const card = document.getElementById(`station-${id}`);
+                    if (card) card.classList.add('open');
+                }, 100);
+            } else {
+                showFeedback(feedback, 'error', '❌ Das ist nicht richtig. Versucht es nochmal!');
+                input.classList.add('shake');
+                setTimeout(() => input.classList.remove('shake'), 500);
+            }
+        }
+
+        function showFeedback(el, type, message) {
+            el.className = `feedback show ${type}`;
+            el.innerHTML = message;
+        }
+
+        // ═══════════════════════════════════════════════
+        // PROGRESS
+        // ═══════════════════════════════════════════════
+        function updateProgress() {
+            const solved = gameState.solvedStations.length;
+            document.getElementById('progressText').textContent = `${solved} / ${SOLUTION_WORD.length}`;
+
+            // Update header letter boxes
+            stations.forEach((station, index) => {
+                const box = document.getElementById(`header-letter-${index}`);
+                const finalBox = document.getElementById(`final-letter-${index}`);
+                if (gameState.solvedStations.includes(station.id)) {
+                    box.textContent = station.letter;
+                    box.classList.add('found');
+                    finalBox.textContent = station.letter;
+                    finalBox.classList.add('found');
+                } else {
+                    box.textContent = '?';
+                    box.classList.remove('found');
+                    finalBox.textContent = '?';
+                    finalBox.classList.remove('found');
+                }
+            });
+        }
+
+        // ═══════════════════════════════════════════════
+        // FINAL SOLUTION
+        // ═══════════════════════════════════════════════
+        function checkFinalSolution() {
+            const input = document.getElementById('finalInput');
+            const feedback = document.getElementById('finalFeedback');
+            const value = input.value.trim().toUpperCase();
+
+            if (!value) {
+                feedback.className = 'final-feedback show error';
+                feedback.textContent = '❌ Bitte gebt das Lösungswort ein.';
+                return;
+            }
+
+            if (value === SOLUTION_WORD) {
+                gameState.completed = true;
+                saveState();
+                
+                feedback.className = 'final-feedback show success';
+                feedback.textContent = '🎉 Perfekt! Das ist das richtige Lösungswort!';
+                
+                launchConfetti();
+                
+                setTimeout(() => {
+                    showScreen('completionScreen');
+                    launchConfetti();
+                }, 2000);
+            } else {
+                feedback.className = 'final-feedback show error';
+                feedback.textContent = '❌ Das ist leider nicht das richtige Lösungswort.';
+                input.classList.add('shake');
+                setTimeout(() => input.classList.remove('shake'), 500);
+            }
+        }
+
+        // ═══════════════════════════════════════════════
+        // CONFETTI
+        // ═══════════════════════════════════════════════
+        function launchConfetti() {
+            const container = document.getElementById('confettiContainer');
+            const colors = ['#e8a824', '#7f5af0', '#2ecc71', '#e74c3c', '#3498db', '#f39c12', '#1abc9c'];
+
+            for (let i = 0; i < 80; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.width = (Math.random() * 8 + 5) + 'px';
+                piece.style.height = (Math.random() * 8 + 5) + 'px';
+                piece.style.setProperty('--drift', (Math.random() * 200 - 100) + 'px');
+                piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                piece.style.animationDelay = Math.random() * 1 + 's';
+                container.appendChild(piece);
+            }
+
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        // ═══════════════════════════════════════════════
+        // RESET
+        // ═══════════════════════════════════════════════
+        function resetGame() {
+            if (confirm('Wirklich den gesamten Fortschritt zurücksetzen?')) {
+                localStorage.removeItem('schnitzeljagd_state');
+                gameState = { started: false, solvedStations: [], solvedSubRiddles: [], completed: false };
+                buildStations();
+                buildHeaderLetterBoxes();
+                buildFinalLetterBoxes();
+                showScreen('startScreen');
+            }
+        }
+
+        // ═══════════════════════════════════════════════
+        // BOOT
+        // ═══════════════════════════════════════════════
+        init();
+    </script>
+</body>
+</html>
