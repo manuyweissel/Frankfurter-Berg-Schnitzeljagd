@@ -887,7 +887,7 @@ body::after {
     padding: 1.5rem;
     margin-bottom: 1.25rem;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .riddle-card::before {
@@ -899,6 +899,7 @@ body::after {
     height: 3px;
     background: linear-gradient(90deg, var(--accent), var(--purple));
     opacity: 0.5;
+    border-radius: var(--radius) var(--radius) 0 0;
 }
 
 .riddle-label {
@@ -1025,6 +1026,7 @@ body::after {
 
 .answer-input {
     flex: 1;
+    min-width: 0;
     padding: 0.85rem 1rem;
     background: rgba(255, 255, 255, 0.05);
     border: 1.5px solid var(--border);
@@ -1047,7 +1049,7 @@ body::after {
 }
 
 .btn-check {
-    padding: 0.85rem 1.5rem;
+    padding: 0.85rem 1.2rem;
     background: linear-gradient(135deg, var(--accent), var(--accent-dark));
     color: var(--bg-primary);
     border: none;
@@ -1057,6 +1059,7 @@ body::after {
     font-size: 0.9rem;
     transition: all 0.2s ease;
     white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .btn-check:hover {
