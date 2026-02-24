@@ -4,9 +4,8 @@
 
 // ─── Station Data ───────────────────────────────────────
 var SOLUTION_WORD = "PROWOKULTA";
-// Scrambled display order for letter boxes (indices into stations array)
-// Shows: K A O P L W T R U O  instead of P R O W O K U L T A
-var SHUFFLED_INDICES = [5, 9, 2, 0, 7, 3, 8, 1, 6, 4];
+// Letters are assigned to stations in scrambled order (not spelling the solution)
+// Header shows: O K T A P L W U R O
 
 var stations = [
     {
@@ -15,7 +14,7 @@ var stations = [
         icon: "\u{1F3EB}",
         question: "Welches Tier ist im Brunnen der Albert-Schweitzer-Schule?",
         answers: ["pelikan"],
-        letter: "P",
+        letter: "O",
         hint: null,
         subRiddle: null,
         enabled: true
@@ -26,7 +25,7 @@ var stations = [
         icon: "\u{1F950}",
         question: "Vorname des Chefs beim ersten richtigen Beruf von Man\u00FA?",
         answers: ["dimitri"],
-        letter: "R",
+        letter: "K",
         hint: "Ich war beim B\u00E4cker im Verkauf.",
         subRiddle: null,
         enabled: true
@@ -37,7 +36,7 @@ var stations = [
         icon: "\u{1F40D}",
         question: "Welches Tier als Sitzgelegenheit hat Man\u00FA mit seiner Mama und ein paar anderen Nachbarn 2010 direkt gegen\u00FCber von dem Netto Marken-Discount gebaut?",
         answers: ["schlange"],
-        letter: "O",
+        letter: "T",
         hint: null,
         subRiddle: null,
         enabled: true
@@ -48,7 +47,7 @@ var stations = [
         icon: "\u{1F3E2}",
         question: "So viele Stockwerke hat das Hochhaus \u201EJulius-Brecht-Stra\u00DFe 8\u201C.",
         answers: ["8", "acht"],
-        letter: "W",
+        letter: "A",
         hint: null,
         subRiddle: null,
         enabled: true
@@ -59,7 +58,7 @@ var stations = [
         icon: "\u{1F3A0}",
         question: "Auf welchem Untergrund steht die Schleuder/Schaukel beim Spielplatz Heinrich-Plett-Stra\u00DFe?",
         answers: ["holzsp\u00E4ne", "holzspaene", "holzspane", "holzsp\u00E4hne"],
-        letter: "O",
+        letter: "P",
         hint: null,
         subRiddle: null,
         enabled: true
@@ -70,7 +69,7 @@ var stations = [
         icon: "\u{1F333}",
         question: "Was f\u00FCr ein Obstbaum steht beim Klingenfeld 77?",
         answers: ["apfelbaum", "apfel baum"],
-        letter: "K",
+        letter: "L",
         hint: null,
         subRiddle: null,
         enabled: true
@@ -82,7 +81,7 @@ var stations = [
         question: "Was ist das dritte Gericht auf der aktuellen Speisekarte des Restaurants \u201EZum Lemp\u201C?",
         // ⚠️ TO-DO: Antwort hier eintragen wenn bekannt!
         answers: ["manu"],
-        letter: "U",
+        letter: "W",
         hint: null,
         subRiddle: null,
         enabled: true
@@ -93,7 +92,7 @@ var stations = [
         icon: "\u{1F4CD}",
         question: "An den Koordinaten <strong class=\"revealed-code\" id=\"code8\">????</strong> liegt ein Grundst\u00FCck. Wie hei\u00DFt der Sohn dieser Person mit Vor- und Nachnamen?",
         answers: ["linus burgeff"],
-        letter: "L",
+        letter: "U",
         hint: null,
         subRiddle: {
             question: "\u{1F9EE} Knackt den Koordinaten-Code! L\u00F6st die 6 Aufgaben:<br><br>" +
@@ -117,7 +116,7 @@ var stations = [
         question: "Hier befindet sich die Kita und der Hort von Man\u00FA. Diese ist am Neuenberg. Was steht auf der Klingel?",
         // ⚠️ TO-DO: Antwort hier eintragen wenn bekannt!
         answers: ["manu"],
-        letter: "T",
+        letter: "R",
         hint: "Auf dem Weg gibt es einen Durchgang an der Station \u201EFrankfurt (Main) Dachsberg\u201C, den Google nicht findet.",
         subRiddle: null,
         enabled: true
@@ -128,7 +127,7 @@ var stations = [
         icon: "\u{1F6AA}",
         question: "Gegen\u00FCber der Taxischule Zimmermann steht eine Unterkunft. \u00D6ffnet diese mit dem Code <strong class=\"revealed-code\" id=\"code10\">????</strong>. Was begegnet euch als erstes, wenn ihr die Unterkunft betretet?",
         answers: ["vorhang"],
-        letter: "A",
+        letter: "O",
         hint: null,
         subRiddle: {
             question: "\u{1F9EE} Um den Code zu knacken, l\u00F6st diese Aufgabe:<br><br>" +
@@ -348,8 +347,8 @@ function buildLetterBoxes(containerId, cssClass) {
 }
 
 function updateLetterBoxes(containerId) {
-    for (var i = 0; i < SHUFFLED_INDICES.length; i++) {
-        var station = stations[SHUFFLED_INDICES[i]];
+    for (var i = 0; i < stations.length; i++) {
+        var station = stations[i];
         var box = document.getElementById(containerId + "-" + i);
         if (!box) continue;
         if (gameState.solvedStations.indexOf(station.id) !== -1) {
