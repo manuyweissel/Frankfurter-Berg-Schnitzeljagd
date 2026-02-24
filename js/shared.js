@@ -324,7 +324,7 @@ function checkFinalSolution() {
         gameState.completed = true;
         saveState();
         feedback.className = "final-feedback success";
-        feedback.innerHTML = "\u{1F389} Perfekt! Das ist das richtige L\u00F6sungswort!<br>Macht euch auf den Weg zum <strong>PROWOKULTA</strong>!";
+        feedback.innerHTML = "\u{1F389} Perfekt! Das ist das richtige L\u00F6sungswort!<br>Macht euch auf den Weg zu <strong>PROWOKULTA</strong>!";
         launchConfetti();
         setTimeout(function() {
             window.location.href = getBasePath() + "completion.html";
@@ -625,6 +625,7 @@ function renderOverview() {
                     '<div class="letter-boxes" id="headerLetters"></div>' +
                 '</div>' +
             '</nav>' +
+            finalSectionHTML +
             '<div class="overview-section">' +
                 '<div class="overview-header">' +
                     '<h2>\u{1F5FA}\uFE0F Eure Route</h2>' +
@@ -632,7 +633,6 @@ function renderOverview() {
                 '</div>' +
                 '<div class="trail">' + trailHTML + '</div>' +
             '</div>' +
-            finalSectionHTML +
             '<div class="page-footer">' +
                 '<div>Frankfurter Berg Schnitzeljagd</div>' +
                 '<button class="btn-reset-small" onclick="resetGame()">\u{1F504} Fortschritt zur\u00FCcksetzen</button>' +
