@@ -12,7 +12,7 @@ var stations = [
         id: 1,
         title: "Die erste Bildung",
         icon: "\u{1F3EB}",
-        question: "Welches Tier zirmt den Brunnen der Albert-Schweitzer-Schule?",
+        question: "Welches Tier sitzt auf dem Brunnen meiner Grundschule, der Albert-Schweitzer-Schule?",
         answers: ["pelikan"],
         letter: "O",
         hint: null,
@@ -34,7 +34,7 @@ var stations = [
         id: 3,
         title: "Nachbarschaftsarbeit",
         icon: "\u{1F91D}",
-        question: "Welches Tier als Sitzgelegenheit hat Man\u00FA mit ein paar anderen Nachbarn 2009 direkt gegen\u00FCber von dem Netto Marken-Discount gebaut?",
+        question: "Welches Tier als Sitzgelegenheit habe ich mit ein paar anderen Nachbarn 2009 direkt vor dem Netto gebaut?",
         answers: ["schlange"],
         letter: "T",
         hint: null,
@@ -123,7 +123,7 @@ var stations = [
         id: 10,
         title: "Die ersten Lebensstunden",
         icon: "\u{1F6AA}",
-        question: "Gegen\u00FCber der Taxischule Zimmermann steht eine Unterkunft. \u00D6ffnet diese mit dem Code <strong class=\"revealed-code\" id=\"code10\">????</strong>. Was begegnet euch als erstes, wenn ihr die Unterkunft betretet?",
+        question: "Gegen\u00FCber der Taxischule Zimmermann steht meine erste Unterkunft. \u00D6ffnet diese mit dem Code <strong class=\"revealed-code\" id=\"code10\">????</strong>. Was begegnet euch als erstes, wenn ihr die Unterkunft betretet?",
         answers: ["vorhang"],
         letter: "O",
         hint: null,
@@ -754,7 +754,7 @@ function renderStationPage(stationId) {
         : '<div class="nav-btn invisible">-</div>';
     var navNext = nextId
         ? '<a href="' + getStationPath(nextId) + '" class="nav-btn">Station ' + nextId + ' ' + ICON_ARROW_RIGHT + '</a>'
-        : '<a href="' + getBasePath() + 'index.html" class="nav-btn">\u00DCbersicht ' + ICON_ARROW_RIGHT + '</a>';
+        : '<a href="' + getBasePath() + 'index.html" class="nav-btn">\u{1F3C6} Zum L\u00F6sungswort ' + ICON_ARROW_RIGHT + '</a>';
 
     app.innerHTML =
         getBgHTML() +
