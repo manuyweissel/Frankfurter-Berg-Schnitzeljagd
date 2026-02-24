@@ -10,9 +10,9 @@ var SOLUTION_WORD = "PROWOKULTA";
 var stations = [
     {
         id: 1,
-        title: "Albert-Schweitzer-Schule",
+        title: "Man\u00FAs Grundschule",
         icon: "\u{1F3EB}",
-        question: "Welches Tier ist im Brunnen der Albert-Schweitzer-Schule?",
+        question: "Welches Tier zirmt den Brunnen der Albert-Schweitzer-Schule?",
         answers: ["pelikan"],
         letter: "O",
         hint: null,
@@ -21,20 +21,20 @@ var stations = [
     },
     {
         id: 2,
-        title: "Man\u00FAs erster Job",
+        title: "Man\u00FAs erster Chef",
         icon: "\u{1F950}",
-        question: "Vorname des Chefs beim ersten richtigen Beruf von Man\u00FA?",
+        question: "Wie lautet der Vorname des Chefs des ersten richtigen Berufs von Man\u00FA?",
         answers: ["dimitri"],
         letter: "K",
-        hint: "Ich war beim B\u00E4cker im Verkauf.",
+        hint: "Ich war beim B\u00E4cker ein Eingangsbereich des Rewes.",
         subRiddle: null,
         enabled: true
     },
     {
         id: 3,
-        title: "Netto Marken-Discount",
-        icon: "\u{1F40D}",
-        question: "Welches Tier als Sitzgelegenheit hat Man\u00FA mit seiner Mama und ein paar anderen Nachbarn 2010 direkt gegen\u00FCber von dem Netto Marken-Discount gebaut?",
+        title: "Nachbarschaftsarbeit",
+        icon: "\u{1F91D}",
+        question: "Welches Tier als Sitzgelegenheit hat Man\u00FA mit ein paar anderen Nachbarn 2010 direkt gegen\u00FCber von dem Netto Marken-Discount gebaut?",
         answers: ["schlange"],
         letter: "T",
         hint: null,
@@ -43,9 +43,9 @@ var stations = [
     },
     {
         id: 4,
-        title: "Julius-Brecht-Stra\u00DFe 8",
+        title: "Tief im Ghetto",
         icon: "\u{1F3E2}",
-        question: "So viele Stockwerke hat das Hochhaus \u201EJulius-Brecht-Stra\u00DFe 8\u201C.",
+        question: "Wie viele Stockwerke hat das Hochhaus \u201EJulius-Brecht-Stra\u00DFe 8\u201C.",
         answers: ["8", "acht"],
         letter: "A",
         hint: null,
@@ -54,7 +54,7 @@ var stations = [
     },
     {
         id: 5,
-        title: "Spielplatz Heinrich-Plett-Stra\u00DFe",
+        title: "Hartes Pflaster oder weich wie Wolle?",
         icon: "\u{1F3A0}",
         question: "Auf welchem Untergrund steht die Schleuder/Schaukel beim Spielplatz Heinrich-Plett-Stra\u00DFe?",
         answers: ["holzsp\u00E4ne", "holzspaene", "holzspane", "holzsp\u00E4hne"],
@@ -65,10 +65,10 @@ var stations = [
     },
     {
         id: 6,
-        title: "Klingenfeld 77",
+        title: "Natur in unmittelbarer N\u00E4he",
         icon: "\u{1F333}",
-        question: "Was f\u00FCr ein Obstbaum steht beim Klingenfeld 77?",
-        answers: ["apfelbaum", "apfel baum"],
+        question: "Was steht auf der Plakette der Sitzgelegenheit beim Klingenfeld 77?",
+        answers: ["manu"],
         letter: "L",
         hint: null,
         subRiddle: null,
@@ -76,7 +76,7 @@ var stations = [
     },
     {
         id: 7,
-        title: "Restaurant \u201EZum Lemp\u201C",
+        title: "Das leckerste beim Lempchen",
         icon: "\u{1F37D}\uFE0F",
         question: "Was ist das dritte Gericht auf der aktuellen Speisekarte des Restaurants \u201EZum Lemp\u201C?",
         // ⚠️ TO-DO: Antwort hier eintragen wenn bekannt!
@@ -111,19 +111,19 @@ var stations = [
     },
     {
         id: 9,
-        title: "Kita & Hort am Neuenberg",
+        title: "Nach der Schule",
         icon: "\u{1F3E0}",
-        question: "Hier befindet sich die Kita und der Hort von Man\u00FA. Diese ist am Neuenberg. Was steht auf der Klingel?",
+        question: "Was steht auf der Klingel am Eingang der Kita und des Hortes von Man\u00FA?",
         // ⚠️ TO-DO: Antwort hier eintragen wenn bekannt!
         answers: ["manu"],
         letter: "R",
-        hint: "Auf dem Weg gibt es einen Durchgang an der Station \u201EFrankfurt (Main) Dachsberg\u201C, den Google nicht findet.",
+        hint: "Diese ist am Neuenberg. Auf dem Weg gibt es einen Durchgang an der Station \u201EFrankfurt (Main) Dachsberg\u201C, den Google nicht findet.",
         subRiddle: null,
         enabled: true
     },
     {
         id: 10,
-        title: "Taxischule Zimmermann",
+        title: "Die ersten Lebensstunden",
         icon: "\u{1F6AA}",
         question: "Gegen\u00FCber der Taxischule Zimmermann steht eine Unterkunft. \u00D6ffnet diese mit dem Code <strong class=\"revealed-code\" id=\"code10\">????</strong>. Was begegnet euch als erstes, wenn ihr die Unterkunft betretet?",
         answers: ["vorhang"],
