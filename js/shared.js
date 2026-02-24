@@ -319,7 +319,7 @@ function checkFinalSolution() {
         gameState.completed = true;
         saveState();
         feedback.className = "final-feedback success";
-        feedback.textContent = "\u{1F389} Perfekt! Das ist das richtige L\u00F6sungswort!";
+        feedback.innerHTML = "\u{1F389} Perfekt! Das ist das richtige L\u00F6sungswort!<br>Macht euch auf den Weg zum <strong>PROWOKULTA</strong>!";
         launchConfetti();
         setTimeout(function() {
             window.location.href = getBasePath() + "completion.html";
@@ -770,9 +770,13 @@ function renderCompletion() {
                 '<h1 class="completion-title">Geschafft!</h1>' +
                 '<div class="completion-word">' + SOLUTION_WORD + '</div>' +
                 '<p class="completion-message">' +
-                    'Herzlichen Gl\u00FCckwunsch! Ihr habt alle Stationen gemeistert und das L\u00F6sungswort gefunden. ' +
-                    'Das war eine tolle Tour durch Frankfurter Berg! \u{1F389}' +
+                    'Herzlichen Gl\u00FCckwunsch! Ihr habt alle Stationen gemeistert und das L\u00F6sungswort gefunden. \u{1F389}' +
                 '</p>' +
+                '<div style="background:rgba(232,168,36,0.12);border:1px solid rgba(232,168,36,0.3);border-radius:1rem;padding:1.25rem 1.5rem;margin:1.5rem 0;text-align:center;">' +
+                    '<p style="font-size:1.1rem;color:#fffffe;margin:0 0 0.5rem;">\u{1F4CD} <strong>Euer letztes Ziel:</strong></p>' +
+                    '<p style="font-size:1.4rem;font-weight:800;color:#e8a824;margin:0 0 0.5rem;">PROWOKULTA</p>' +
+                    '<p style="font-size:0.95rem;color:#a7a9be;margin:0;">Macht euch jetzt auf den Weg dorthin!</p>' +
+                '</div>' +
                 '<button class="btn-reset" onclick="resetGame()">\u{1F504} Nochmal spielen</button>' +
             '</div>' +
         '</div>' +
