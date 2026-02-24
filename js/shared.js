@@ -88,12 +88,23 @@ var stations = [
         id: 8,
         title: "Geheimes Grundst\u00FCck",
         icon: "\u{1F4CD}",
-        question: "An den Koordinaten <strong>50\u00B010'03.5\"N 8\u00B041'47.2\"E</strong> liegt ein Grundst\u00FCck. Wie hei\u00DFt der Sohn dieser Person mit Vor- und Nachnamen?",
+        question: "An den Koordinaten <strong class=\"revealed-code\" id=\"code8\">????</strong> liegt ein Grundst\u00FCck. Wie hei\u00DFt der Sohn dieser Person mit Vor- und Nachnamen?",
         answers: ["linus burgeff"],
         letter: "L",
         hint: null,
-        // ⚠️ TO-DO: Unterrätsel für die Koordinaten hier eintragen
-        subRiddle: null,
+        subRiddle: {
+            question: "\u{1F9EE} Knackt den Koordinaten-Code! L\u00F6st die 6 Aufgaben:<br><br>" +
+                "<strong>a)</strong> 5\u00B2 \u00D7 2 = ?<br>" +
+                "<strong>b)</strong> \u221A100 = ?<br>" +
+                "<strong>c)</strong> 7 \u00F7 2 = ?<br>" +
+                "<strong>d)</strong> 2\u00B3 = ?<br>" +
+                "<strong>e)</strong> 6 \u00D7 7 \u2212 1 = ?<br>" +
+                "<strong>f)</strong> 8\u00B2 \u2212 16,8 = ?<br><br>" +
+                "Die Koordinaten sind: <em>a\u00B0b\u2019c\u201DN d\u00B0e\u2019f\u201DE</em><br><br>" +
+                "<strong>Gebt die Summe aller Ergebnisse ein (a+b+c+d+e+f):</strong>",
+            answers: ["159.7", "159,7"],
+            revealText: "50\u00B010\u201903.5\u201DN 8\u00B041\u201947.2\u201DE"
+        },
         enabled: true
     },
     {
