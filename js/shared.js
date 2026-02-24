@@ -22,7 +22,7 @@ var stations = [
     {
         id: 2,
         title: "Auftritte mit der Quetschkommode",
-        icon: "\u{1F950}",
+        icon: "\u{1FA97}",
         question: "In dieser Kirche finden traditionell die Auftritte des Akkordeonorchesters des Frankfurter Berg statt. Wie hei\u00DFt sie?",
         answers: ["allerheiligste dreifaltigkeitskirche", "dreifaltigkeitskirche", "allerheiligste dreifaltigkeit"],
         letter: "K",
