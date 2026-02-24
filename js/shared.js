@@ -545,7 +545,7 @@ function renderOverview() {
             statusText = "\u{1F512} Noch nicht freigeschaltet";
             href = "javascript:void(0)";
             iconDisplay = "\u{1F512}";
-            titleDisplay = "Station " + station.id;
+            titleDisplay = "Station " + station.id + ": " + station.title;
         } else if (isSolved) {
             statusClass = "solved";
             statusText = "\u2705 Gel\u00F6st";
