@@ -10,7 +10,7 @@ var SOLUTION_WORD = "PROWOKULTA";
 var stations = [
     {
         id: 1,
-        title: "Man\u00FAs Grundschule",
+        title: "Die erste Bildung",
         icon: "\u{1F3EB}",
         question: "Welches Tier zirmt den Brunnen der Albert-Schweitzer-Schule?",
         answers: ["pelikan"],
@@ -21,7 +21,7 @@ var stations = [
     },
     {
         id: 2,
-        title: "Man\u00FAs erster Chef",
+        title: "Auftritte mit der Quetschkommode",
         icon: "\u{1F950}",
         question: "In dieser Kirche finden traditionell die Auftritte des Akkordeonorchesters des Frankfurter Berg statt. Wie hei\u00DFt sie?",
         answers: ["allerheiligste dreifaltigkeitskirche", "dreifaltigkeitskirche", "allerheiligste dreifaltigkeit"],
@@ -33,7 +33,7 @@ var stations = [
     {
         id: 3,
         title: "Nachbarschaftsarbeit",
-        icon: "\u{1F91D}",
+        icon: "\u{1F3D7}\uFE0F",
         question: "Welches Tier als Sitzgelegenheit hat Man\u00FA mit ein paar anderen Nachbarn 2009 direkt gegen\u00FCber von dem Netto Marken-Discount gebaut?",
         answers: ["schlange"],
         letter: "T",
@@ -65,7 +65,7 @@ var stations = [
     },
     {
         id: 6,
-        title: "Natur in unmittelbarer N\u00E4he",
+        title: "Immernoch in der Stadt?",
         icon: "\u{1F333}",
         question: "Welche Tiere leben gegen\u00FCber dem Haus beim Klingenfeld 67?",
         answers: ["pferde", "pferd"],
@@ -193,6 +193,13 @@ function getStationPath(id) {
 }
 
 // ─── Helpers ────────────────────────────────────────────
+function isStationUnlocked(stationId) {
+    // Station 1 is always unlocked
+    if (stationId === 1) return true;
+    // All other stations require the previous one to be solved
+    return gameState.solvedStations.indexOf(stationId - 1) !== -1;
+}
+
 function allEnabledStationsSolved() {
     var enabledStations = stations.filter(function(s) { return s.enabled; });
     return enabledStations.every(function(s) {
@@ -518,23 +525,52 @@ function renderOverview() {
     for (var i = 0; i < stations.length; i++) {
         var station = stations[i];
         var isSolved = gameState.solvedStations.indexOf(station.id) !== -1;
-        var statusClass = !station.enabled ? "disabled" : (isSolved ? "solved" : "active");
-        var statusText = !station.enabled
-            ? '<span class="badge-coming-soon">\u{1F6A7} Bald verf\u00FCgbar</span>'
-            : (isSolved ? "\u2705 Gel\u00F6st" : "Noch nicht gel\u00F6st");
-        var href = station.enabled ? getStationPath(station.id) : "javascript:void(0)";
+        var unlocked = isStationUnlocked(station.id);
+        var isLocked = !unlocked && !isSolved;
+
+        var statusClass;
+        var statusText;
+        var href;
+        var iconDisplay;
+        var titleDisplay;
+
+        if (!station.enabled) {
+            statusClass = "disabled";
+            statusText = '<span class="badge-coming-soon">\u{1F6A7} Bald verf\u00FCgbar</span>';
+            href = "javascript:void(0)";
+            iconDisplay = "\u{1F512}";
+            titleDisplay = "Station " + station.id;
+        } else if (isLocked) {
+            statusClass = "locked";
+            statusText = "\u{1F512} Noch nicht freigeschaltet";
+            href = "javascript:void(0)";
+            iconDisplay = "\u{1F512}";
+            titleDisplay = "Station " + station.id;
+        } else if (isSolved) {
+            statusClass = "solved";
+            statusText = "\u2705 Gel\u00F6st";
+            href = getStationPath(station.id);
+            iconDisplay = station.icon;
+            titleDisplay = "Station " + station.id + ": " + station.title;
+        } else {
+            statusClass = "active";
+            statusText = "Noch nicht gel\u00F6st";
+            href = getStationPath(station.id);
+            iconDisplay = station.icon;
+            titleDisplay = "Station " + station.id + ": " + station.title;
+        }
 
         trailHTML +=
             '<a href="' + href + '" class="trail-item ' + statusClass + '">' +
                 '<div class="trail-dot"></div>' +
                 '<div class="trail-card">' +
-                    '<div class="trail-card-icon">' + station.icon + '</div>' +
+                    '<div class="trail-card-icon">' + iconDisplay + '</div>' +
                     '<div class="trail-card-info">' +
-                        '<div class="trail-card-title">Station ' + station.id + ': ' + station.title + '</div>' +
+                        '<div class="trail-card-title">' + titleDisplay + '</div>' +
                         '<div class="trail-card-status">' + statusText + '</div>' +
                     '</div>' +
                     '<div class="trail-card-letter">' + (isSolved ? "\u2713" : "?") + '</div>' +
-                    '<div class="trail-card-arrow">' + ICON_ARROW_RIGHT + '</div>' +
+                    (isLocked ? '' : '<div class="trail-card-arrow">' + ICON_ARROW_RIGHT + '</div>') +
                 '</div>' +
             '</a>';
     }
@@ -619,7 +655,12 @@ function renderStationPage(stationId) {
     }
     if (!station) return;
 
+    // Redirect to overview if station is locked
     var isSolved = gameState.solvedStations.indexOf(stationId) !== -1;
+    if (!isSolved && !isStationUnlocked(stationId)) {
+        window.location.href = getBasePath() + "index.html";
+        return;
+    }
     var isSubSolved = gameState.solvedSubRiddles.indexOf(stationId) !== -1;
     var prevId = stationId > 1 ? stationId - 1 : null;
     var nextId = stationId < stations.length ? stationId + 1 : null;
