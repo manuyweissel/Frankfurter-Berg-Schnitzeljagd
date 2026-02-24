@@ -4,6 +4,9 @@
 
 // ─── Station Data ───────────────────────────────────────
 var SOLUTION_WORD = "PROWOKULTA";
+// Scrambled display order for letter boxes (indices into stations array)
+// Shows: K A O P L W T R U O  instead of P R O W O K U L T A
+var SHUFFLED_INDICES = [5, 9, 2, 0, 7, 3, 8, 1, 6, 4];
 
 var stations = [
     {
@@ -345,8 +348,8 @@ function buildLetterBoxes(containerId, cssClass) {
 }
 
 function updateLetterBoxes(containerId) {
-    for (var i = 0; i < stations.length; i++) {
-        var station = stations[i];
+    for (var i = 0; i < SHUFFLED_INDICES.length; i++) {
+        var station = stations[SHUFFLED_INDICES[i]];
         var box = document.getElementById(containerId + "-" + i);
         if (!box) continue;
         if (gameState.solvedStations.indexOf(station.id) !== -1) {
@@ -533,7 +536,7 @@ function renderOverview() {
                         '<div class="trail-card-title">Station ' + station.id + ': ' + station.title + '</div>' +
                         '<div class="trail-card-status">' + statusText + '</div>' +
                     '</div>' +
-                    '<div class="trail-card-letter">' + (isSolved ? station.letter : "?") + '</div>' +
+                    '<div class="trail-card-letter">' + (isSolved ? "\u2713" : "?") + '</div>' +
                     '<div class="trail-card-arrow">' + ICON_ARROW_RIGHT + '</div>' +
                 '</div>' +
             '</a>';
@@ -547,10 +550,16 @@ function renderOverview() {
         finalSectionHTML =
             '<div class="final-section" id="finalSection">' +
                 '<div class="final-card">' +
-                    '<div class="final-card-title">\u{1F3C6} L\u00F6sungswort eingeben</div>' +
+                    '<div class="final-card-title">\u{1F3C6} Letztes Ziel: Das L\u00F6sungswort!</div>' +
+                    '<p style="color:var(--text-body);font-size:0.95rem;margin-bottom:0.75rem;">' +
+                        'Ihr habt alle Buchstaben gesammelt! Bildet aus diesen Buchstaben das L\u00F6sungswort:' +
+                    '</p>' +
                     '<div class="final-letter-boxes" id="finalLetters"></div>' +
+                    '<p style="color:var(--text-muted);font-size:0.85rem;margin:0.5rem 0 1rem;font-style:italic;">' +
+                        '\u{1F4A1} Tipp: Bringt die Buchstaben in die richtige Reihenfolge!' +
+                    '</p>' +
                     '<div class="final-input-group">' +
-                        '<input type="text" class="final-input" id="finalInput" placeholder="?????????" maxlength="10" autocomplete="off" autocapitalize="characters" onkeydown="if(event.key===\'Enter\') checkFinalSolution()">' +
+                        '<input type="text" class="final-input" id="finalInput" placeholder="L\u00F6sungswort eingeben\u2026" maxlength="10" autocomplete="off" autocapitalize="characters" onkeydown="if(event.key===\'Enter\') checkFinalSolution()">' +
                         '<button class="btn-final" onclick="checkFinalSolution()">Pr\u00FCfen</button>' +
                     '</div>' +
                     '<div class="final-feedback" id="finalFeedback"></div>' +
@@ -563,7 +572,7 @@ function renderOverview() {
                     '<div class="final-card-title">\u{1F512} L\u00F6sungswort</div>' +
                     '<div class="final-letter-boxes" id="finalLetters"></div>' +
                     '<p style="color:var(--text-muted);font-size:0.9rem;margin-top:0.5rem;">' +
-                        'L\u00F6st zuerst alle Stationen, um das L\u00F6sungswort einzugeben.<br>' +
+                        'Sammelt alle Buchstaben und bildet daraus das L\u00F6sungswort!<br>' +
                         '<strong>' + solvedCount + ' von ' + getEnabledCount() + '</strong> Stationen gel\u00F6st.' +
                     '</p>' +
                 '</div>' +
