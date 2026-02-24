@@ -123,7 +123,7 @@ var stations = [
         id: 10,
         title: "Die ersten Lebensstunden",
         icon: "\u{1F6AA}",
-        question: "Gegen\u00FCber der Taxischule Zimmermann steht meine erste Unterkunft. \u00D6ffnet diese mit dem Code <strong class=\"revealed-code\" id=\"code10\">????</strong>. Was begegnet euch als erstes, wenn ihr die Unterkunft betretet?",
+        question: "Gegen\u00FCber der Taxischule Zimmermann steht meine erste Unterkunft. \u00D6ffnet diese mit dem Code <strong class=\"revealed-code\" id=\"code10\">????</strong>. Was kommt euch als erstes entgegen, wenn ihr die Unterkunft betretet?",
         answers: ["vorhang"],
         letter: "O",
         hint: null,
