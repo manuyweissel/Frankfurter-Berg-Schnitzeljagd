@@ -128,9 +128,10 @@ var stations = [
         letter: "A",
         hint: null,
         subRiddle: {
-            question: "Um den Code zu erfahren, l\u00F6st zuerst dieses R\u00E4tsel: Wann war der Sturm auf die Bastille? (Format: DDMM)",
-            answers: ["1407"],
-            revealText: "1407"
+            question: "\u{1F9EE} Um den Code zu knacken, l\u00F6st diese Aufgabe:<br><br>" +
+                "<strong>(Anzahl der Monate im Jahr)</strong> \u00D7 <strong>(Anzahl der Planeten im Sonnensystem)</strong> + <strong>(Anzahl der Bundesl\u00E4nder Deutschlands)</strong> + 2 = ?",
+            answers: ["114"],
+            revealText: "114"
         },
         enabled: true
     }
